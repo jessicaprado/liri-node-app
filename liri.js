@@ -3,6 +3,7 @@ var keys = require('./keys.js');
 var Twitter = require('twitter');
 var spotify = require('spotify');
 var request = require("request");
+var fs = require("fs");
 
 //Twitter
 if (process.argv[2] == "my-tweets") {
@@ -30,13 +31,17 @@ if (process.argv[2] == "my-tweets") {
 if (process.argv[2] == "spotify-this-song") {
 
 	var song = process.argv[3];
-	spotify.search({ type: 'track', query: song, limit: 2 }, function(err, data) {
+	spotify.search({ type: 'track', query: song, limit: 1}, function(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
         return;
     }
 
-    console.log(JSON.stringify(data.tracks, null, 2));
+    console.log("Track: " + data.tracks.items[0].name);
+	console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+    console.log("Album: " + data.tracks.items[0].album.name);
+    console.log("Play it!: " + data.tracks.items[0].external_urls.spotify);
+    
 });
 }//end of spotify-this-song
 
@@ -61,4 +66,8 @@ if (process.argv[2] == "movie-this") {
   })}; //end of movies
 
 //do what I say, yo.
-//if (process.argv[2] == "do-what-it-says") {};
+if (process.argv[2] == "do-what-it-says") {
+	fs.readFile("random.txt", "utf8", function(){
+
+	})
+};
