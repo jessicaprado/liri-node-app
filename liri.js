@@ -37,14 +37,14 @@ function music() {
         console.log('Error occurred: ' + err);
         return;
     }
-    console.log("Track: " + data.tracks.items[0].name);
-	console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
-    console.log("Album: " + data.tracks.items[0].album.name);
-    console.log("Play it!: " + data.tracks.items[0].external_urls.spotify);
+	    console.log("Track: " + data.tracks.items[0].name);
+		console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+	    console.log("Album: " + data.tracks.items[0].album.name);
+	    console.log("Play it!: " + data.tracks.items[0].external_urls.spotify);
 	})//end of spotify call
 };//end of Spotify function
 
-
+//OMDB
 function ombd() {
 	request("http://www.omdbapi.com/?t=" + userInput + "&plot=short", function(error, response, body) {
 
@@ -58,10 +58,10 @@ function ombd() {
     console.log('Plot: ' + JSON.parse(body).Plot);
     console.log('Actors: ' + JSON.parse(body).Actors);
     console.log('Rotten Tomatoes Score: ' + JSON.parse(body).Metascore);
-    //console.log(+ JSON.parse(body).Metascore); ROTTEN TOM URL
   	}}) //end of if statement
 };//end of ombd function
 
+//if/else statements
 if (action == "my-tweets") {
 	twitter();
 }; //end of if/else statement
