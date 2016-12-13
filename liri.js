@@ -14,11 +14,14 @@ if (process.argv[2] == "my-tweets") {
 	        access_token_secret: keys.twitterKeys.access_token_secret
 	    });
 
-	var params = {screen_name: 'jmprado12', count: 1};
+	var params = {screen_name: 'jmprado12', count: 20};
 
 	client.get("statuses/user_timeline", params, function(error, tweets, response) {
  	if (!error) {
- 	console.log(tweets);
+ 		for (var i = 0; i < tweets.length; i++) {
+ 			console.log("Tweet: " + tweets[i].text);
+ 			console.log("created on: " + tweets[i].created_at);
+ 		}
  	};
 }); //Twitter call
 }; //end of if/else statement
@@ -33,7 +36,7 @@ if (process.argv[2] == "spotify-this-song") {
         return;
     }
 
-    console.log(JSON.stringify(data.tracks.items, null, 2));
+    console.log(JSON.stringify(data.tracks, null, 2));
 });
 }//end of spotify-this-song
 
