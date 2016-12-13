@@ -4,10 +4,13 @@ var Twitter = require('twitter');
 var spotify = require('spotify');
 var request = require("request");
 var fs = require("fs");
+var action = process.argv[2];
+var userInput = process.argv[3];
+
+//FUNCTIONS
 
 //Twitter
-if (process.argv[2] == "my-tweets") {
-
+function twitter() {
 	var client = new Twitter({
 	        consumer_key: keys.twitterKeys.consumer_key,
 	        consumer_secret: keys.twitterKeys.consumer_secret,
@@ -23,33 +26,27 @@ if (process.argv[2] == "my-tweets") {
  			console.log("Tweet: " + tweets[i].text);
  			console.log("created on: " + tweets[i].created_at);
  		}
- 	};
-}); //Twitter call
-}; //end of if/else statement
+ 		};
+	}) //Twitter call
+};//end of Twitter function
 
 //Spotify
-if (process.argv[2] == "spotify-this-song") {
-
-	var song = process.argv[3];
-	spotify.search({ type: 'track', query: song, limit: 1}, function(err, data) {
+function music() {
+	spotify.search({ type: 'track', query: userInput, limit: 1}, function(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
         return;
     }
-
     console.log("Track: " + data.tracks.items[0].name);
 	console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
     console.log("Album: " + data.tracks.items[0].album.name);
     console.log("Play it!: " + data.tracks.items[0].external_urls.spotify);
-    
-});
-}//end of spotify-this-song
+	})//end of spotify call
+};//end of Spotify function
 
-// Movies
-if (process.argv[2] == "movie-this") {
 
-	var movie = process.argv[3]
-	request("http://www.omdbapi.com/?t=" + movie + "&plot=short", function(error, response, body) {
+function ombd() {
+	request("http://www.omdbapi.com/?t=" + userInput + "&plot=short", function(error, response, body) {
 
   	// If the request is successful (i.e. if the response status code is 200)
   	if (!error && response.statusCode === 200) {
@@ -62,12 +59,41 @@ if (process.argv[2] == "movie-this") {
     console.log('Actors: ' + JSON.parse(body).Actors);
     console.log('Rotten Tomatoes Score: ' + JSON.parse(body).Metascore);
     //console.log(+ JSON.parse(body).Metascore); ROTTEN TOM URL
-  	} //end of if statement
-  })}; //end of movies
+  	}}) //end of if statement
+};//end of ombd function
+
+if (action == "my-tweets") {
+	twitter();
+}; //end of if/else statement
+
+if (action == "spotify-this-song") {
+	music();
+};//end of spotify-this-song
+
+// Movies
+if (action == "movie-this") {
+	ombd();
+}; //end of movies
 
 //do what I say, yo.
-if (process.argv[2] == "do-what-it-says") {
-	fs.readFile("random.txt", "utf8", function(){
+if (action == "do-what-it-says") {
 
-	})
-};
+	fs.readFile("random.txt", "utf8", function(err, data){
+		data = data.split(",")
+		action = data[0];
+		userInput = data[1];
+
+		if (action == "my-tweets") {
+			twitter();
+		}; //end of if/else statement
+
+		if (action == "spotify-this-song") {
+			music();
+		};//end of spotify-this-song
+
+		// Movies
+		if (action == "movie-this") {
+			ombd();
+		}; //end of movies
+		})//end of readFile
+};//end of do-what-it-says
