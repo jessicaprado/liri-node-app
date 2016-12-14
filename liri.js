@@ -8,7 +8,6 @@ var action = process.argv[2];
 var userInput = process.argv[3];
 
 //FUNCTIONS
-
 //Twitter
 function twitter() {
 	var client = new Twitter({
@@ -32,6 +31,7 @@ function twitter() {
 
 //Spotify
 function music() {
+	console.log(userInput);
 	spotify.search({ type: 'track', query: userInput, limit: 1}, function(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
@@ -94,6 +94,6 @@ if (action == "do-what-it-says") {
 		// Movies
 		if (action == "movie-this") {
 			ombd();
-		}; //end of movies
+		} //end of movies
 		})//end of readFile
 };//end of do-what-it-says
