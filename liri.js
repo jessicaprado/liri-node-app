@@ -31,9 +31,8 @@ function twitter() {
 
 //Spotify
 function music() {
-	console.log(userInput);
 	spotify.search({ type: 'track', query: userInput, limit: 1}, function(err, data) {
-    if ( err ) {
+    if ( err ) { 
         console.log('Error occurred: ' + err);
         return;
     }
@@ -47,9 +46,11 @@ function music() {
 //OMDB
 function ombd() {
 	request("http://www.omdbapi.com/?t=" + userInput + "&plot=short", function(error, response, body) {
-
+	if (userInput === undefined) {
+		console.log("If you haven't watched Mr. Nobody, then you should: http://www.imdb.com/title/tt0485947/")
+  	}
   	// If the request is successful (i.e. if the response status code is 200)
-  	if (!error && response.statusCode === 200) {
+  	else if (!error && response.statusCode === 200) {
     console.log('Title: ' + JSON.parse(body).Title);
     console.log('Year: ' + JSON.parse(body).Year);
     console.log('IMBD Rating: ' + JSON.parse(body).imbdRating);
@@ -58,7 +59,9 @@ function ombd() {
     console.log('Plot: ' + JSON.parse(body).Plot);
     console.log('Actors: ' + JSON.parse(body).Actors);
     console.log('Rotten Tomatoes Score: ' + JSON.parse(body).Metascore);
-  	}}) //end of if statement
+  	}}) 
+
+  	//end of if statement
 };//end of ombd function
 
 //if/else statements
